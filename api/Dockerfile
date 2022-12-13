@@ -17,6 +17,8 @@ RUN apk add --no-cache \
 		git \
 	;
 
+RUN apk add --update linux-headers
+
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
