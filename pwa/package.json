@@ -12,6 +12,7 @@
     "@api-platform/admin": "^3.4.3",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.2",
+    "d3": "^7.7.0",
     "formik": "^2.2.9",
     "isomorphic-unfetch": "^3.1.0",
     "next": "^12.3.3",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@popperjs/core": "^2.11.6",
+    "@types/d3": "^7.4.0",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",

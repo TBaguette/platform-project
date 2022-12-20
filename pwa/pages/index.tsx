@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Link from "next/link";
 import React from "react";
+import DonutComponent from "../components/diagram/DonutDiagram";
 
 const Welcome = () => (
   <>
@@ -16,9 +16,9 @@ const Welcome = () => (
           </h1>
           
           <div className="grid">
-            <div>ok</div>
-            <div>ok</div>
-            <div>ok</div>
+            <DonutComponent/>
+            <DonutComponent/>
+            <DonutComponent/>
           </div>
         </div>
       </section>
@@ -123,8 +123,12 @@ const Welcome = () => (
                     grid-template-columns: 1fr 1fr;
                 }
 
-                .grid:last-child:nth-child(odd) {
-                    display:none;
+                .grid > div {
+                    text-align: center;
+                }
+
+                .grid > div:last-child:nth-child(odd) {
+                    grid-column: 1 / 3;
                 }
 
                 /***** MEDIAS *****/
