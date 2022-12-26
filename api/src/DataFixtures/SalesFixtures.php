@@ -14,8 +14,8 @@ class SalesFixtures extends Fixture
         $files = scandir('./resources/sales');
         // iterate over each file
         foreach ($files as $file) {
+            $count = 0;
             try {
-
                 print_r($file . PHP_EOL);
                 // check that the file ends with .csv
                 if (!is_dir('./resources/sales' . $file) && substr($file, -4) === '.txt') {
@@ -31,16 +31,23 @@ class SalesFixtures extends Fixture
                         $sale->surface = floatval($line[38]);
                         $sale->zip = $line[16];
                         $sale->type = $line[36];
-                        $sale->date = new DateTimeImmutable(strtotime($line[8]));
+                        $strdate = $line[8];
+                        $array_date = explode('/', $strdate);
+                        $strdate = $array_date[2] . '-' . $array_date[1] . '-' . $array_date[0];
+                        $date = new \DateTimeImmutable($strdate);
+                        $sale->date = $date;
                         // save the sale
                         $manager->persist($sale);
+                        $count++;
                     }
+                    print_r($count . ' sales loaded' . PHP_EOL);
                 }
             } catch (\Exception $e) {
                 print_r($e->getMessage());
             }
         }
         $manager->flush();
+        print_r('Sales fixtures loaded');
     }
 }
 
