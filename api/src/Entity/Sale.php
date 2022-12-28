@@ -1,14 +1,17 @@
 <?php
 // api/src/Entity/Sale.php
+
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\SaleController;
 
 /** A Sale. */
 #[ORM\Entity]
-#[ApiResource]
 class Sale
 {
     /** The id of this sale. */
@@ -30,7 +33,7 @@ class Sale
     #[Assert\NotBlank]
     public string $zip = '';
 
-    /** type code of this sale */
+    /** type of this sale */
     #[ORM\Column]
     #[Assert\NotBlank]
     public string $type = '';
@@ -48,5 +51,28 @@ class Sale
     public function getId(): ?int
     {
         return $this->id;
+    }
+     /**
+     * Finds all sales for a given year.
+     *
+     * @param \Doctrine\ORM\EntityManagerInterface $em
+     * @param int $year
+     * @return Sale[]
+     */
+    public static function findByYear(\Doctrine\ORM\EntityManagerInterface $em, int $year): array
+    {
+        $startDate = new \DateTimeImmutable("{$year}-01-01");
+        $endDate = new \DateTimeImmutable("{$year}-12-31");
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('s')
+            ->from(Sale::class, 's')
+            ->where($queryBuilder->expr()->between('s.date', ':start_date', ':end_date'))
+            ->setParameter('start_date', $startDate)
+            ->setParameter('end_date', $endDate)
+            ->getQuery();
+
+        return $query->getResult();
     }
 }
