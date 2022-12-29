@@ -8,11 +8,11 @@ const LinearComponent = () => {
 
   useEffect(() => {
     const data = [
-      { year: "2017", appartement: 100 },
-      { year: "2018", appartement: 110 },
-      { year: "2019", appartement: 105 },
-      { year: "2020", appartement: 115 },
-      { year: "2021", appartement: 120 }
+      { year: "2017", price: 100 },
+      { year: "2018", price: 110 },
+      { year: "2019", price: 105 },
+      { year: "2020", price: 115 },
+      { year: "2021", price: 120 }
     ];
 
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
@@ -26,7 +26,7 @@ const LinearComponent = () => {
   return <div className="chart" ref={refChart}></div>
 }
 
-const LinearChartSVG = (element: BaseType, data: { year: string, appartement: number }[], margin: {top: number, right: number, bottom: number, left: number}, options : {
+const LinearChartSVG = (element: BaseType, data: { year: string, price: number }[], margin: {top: number, right: number, bottom: number, left: number}, options : {
   width: number,
   height: number
 }) => {
@@ -39,7 +39,7 @@ const LinearChartSVG = (element: BaseType, data: { year: string, appartement: nu
 
   // Créer un échelle pour l'axe Y (les prix)
   const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.appartement)])
+    .domain([0, d3.max(data, d => d.price)])
     .range([options.height - margin.bottom, margin.top]);
 
   // Créer un axe X
@@ -70,9 +70,9 @@ const LinearChartSVG = (element: BaseType, data: { year: string, appartement: nu
     .enter()
     .append("rect")
     .attr("x", d => x(d.year))
-    .attr("y", d => y(d.appartement))
+    .attr("y", d => y(d.price))
     .attr("width", x.bandwidth())
-    .attr("height", d => y(0) - y(d.appartement))
+    .attr("height", d => y(0) - y(d.price))
     .attr("fill", "steelblue");
 
   svg.append("g")
