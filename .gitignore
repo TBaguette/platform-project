@@ -7,3 +7,4 @@
 /var/log
 /var/sessions
 /node_modules
+/api/resources

@@ -8,10 +8,15 @@ use Monolog\DateTimeImmutable;
 
 class SalesFixtures extends Fixture
 {
+    
+
     public function load(ObjectManager $manager)
     {
+        $BATCH_SIZE = 10000;
+
         // Get the content of a folder
         $files = scandir('./resources/sales');
+
         // iterate over each file
         foreach ($files as $file) {
             $count = 0;
@@ -39,6 +44,12 @@ class SalesFixtures extends Fixture
                         // save the sale
                         $manager->persist($sale);
                         $count++;
+
+                        if ($count % $BATCH_SIZE == 0) {
+                            $manager->flush();
+                            gc_collect_cycles();
+                            print_r($count . ' sales loaded' . PHP_EOL);
+                        }
                     }
                     print_r($count . ' sales loaded' . PHP_EOL);
                 }
@@ -47,6 +58,7 @@ class SalesFixtures extends Fixture
             }
         }
         $manager->flush();
+        gc_collect_cycles();
         print_r('Sales fixtures loaded');
     }
 }

@@ -9,11 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 
-//import Sale entity
-use App\Entity\Sale;
-
 #[Route("/sales")]
-class SaleController extends AbstractController
+class SaleController extends AbstractController 
 {
     #[Route('/count-by-year', name: 'count_by_year', methods: ['GET'])]
     public function countByYear(ManagerRegistry $doctrine): JsonResponse
@@ -21,10 +18,10 @@ class SaleController extends AbstractController
         $em = $doctrine->getManager();
 
         $query = $em->createQuery(
-            'SELECT s.date as year,
-                    COUNT(s) as count
-            FROM App\Entity\Sale s
-            GROUP BY year'
+            'SELECT s1.zip as zip,
+                    ((COUNT(s1) * 100) / SUM(s1)) as count
+            FROM App\Entity\Sale s1
+            GROUP BY s1.zip'
         );
         $results = $query->getResult();
 
