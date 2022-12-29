@@ -3057,7 +3057,7 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /ra-core/4.6.2_w55k22b3233o5m7ts74x2pvkni:
+  /ra-core/4.6.2_val5uprng55ylxvcm3kfe7dosm:
     resolution: {integrity: sha512-Thp9QOffve+meV9FLCmNqUwZH9za2ik/gYvwKAeMdmVJSlSYxhDtPNasAIn73WgW8pQsJhAJ5UNczWKaDQORNg==}
     peerDependencies:
       history: ^5.1.0
@@ -3078,7 +3078,7 @@ packages:
       query-string: 7.1.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-hook-form: 7.41.1_react@18.2.0
+      react-hook-form: 7.41.2_react@18.2.0
       react-is: 17.0.2
       react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
       react-router: 6.6.1_react@18.2.0
@@ -3087,11 +3087,11 @@ packages:
       - react-native
     dev: false
 
-  /ra-i18n-polyglot/4.6.2_w55k22b3233o5m7ts74x2pvkni:
+  /ra-i18n-polyglot/4.6.2_val5uprng55ylxvcm3kfe7dosm:
     resolution: {integrity: sha512-McI6Y5dVzS1EsFEodbfa9fCFbH8V/DMk8ZJQ/jbZ+xV9l1NjwjG+Y46KdiN+FxQuNGqDxs/14gZiY99yQc8e3Q==}
     dependencies:
       node-polyglot: 2.4.2
-      ra-core: 4.6.2_w55k22b3233o5m7ts74x2pvkni
+      ra-core: 4.6.2_val5uprng55ylxvcm3kfe7dosm
     transitivePeerDependencies:
       - history
       - react
@@ -3102,10 +3102,10 @@ packages:
       - react-router-dom
     dev: false
 
-  /ra-language-english/4.6.2_w55k22b3233o5m7ts74x2pvkni:
+  /ra-language-english/4.6.2_val5uprng55ylxvcm3kfe7dosm:
     resolution: {integrity: sha512-lPmWtv/Y58ohnS4h30BzkA3N3VKNuMaFB3fDkoIQGXpB3qeyQgja8FNgxqIinn5scU5ocMJho2SUhdJObo2eIQ==}
     dependencies:
-      ra-core: 4.6.2_w55k22b3233o5m7ts74x2pvkni
+      ra-core: 4.6.2_val5uprng55ylxvcm3kfe7dosm
     transitivePeerDependencies:
       - history
       - react
@@ -3116,7 +3116,7 @@ packages:
       - react-router-dom
     dev: false
 
-  /ra-ui-materialui/4.6.2_k5quxdmufphejbkr5g3kglrq3u:
+  /ra-ui-materialui/4.6.2_eahjet4liakbhcerpplmrvwzmi:
     resolution: {integrity: sha512-AB5y8ZS23PATNDploArb7tD2Y4++UI2Wdl1CW5G+YiMAZfKmIsxhkAYkRaBW+Gej2M/vXeWKbLC7LppJXVQuoA==}
     peerDependencies:
       '@mui/icons-material': ^5.0.1
@@ -3138,12 +3138,12 @@ packages:
       lodash: 4.17.21
       prop-types: 15.8.1
       query-string: 7.1.3
-      ra-core: 4.6.2_w55k22b3233o5m7ts74x2pvkni
+      ra-core: 4.6.2_val5uprng55ylxvcm3kfe7dosm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-dropzone: 12.1.0_react@18.2.0
       react-error-boundary: 3.1.4_react@18.2.0
-      react-hook-form: 7.41.1_react@18.2.0
+      react-hook-form: 7.41.2_react@18.2.0
       react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
       react-router: 6.6.1_react@18.2.0
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
@@ -3170,13 +3170,13 @@ packages:
       '@mui/icons-material': 5.11.0_iq6n432hogcf75rdfmlkzd4zne
       '@mui/material': 5.11.2_lskpmcsdi7ipu6qpuapyu56ihm
       history: 5.3.0
-      ra-core: 4.6.2_w55k22b3233o5m7ts74x2pvkni
-      ra-i18n-polyglot: 4.6.2_w55k22b3233o5m7ts74x2pvkni
-      ra-language-english: 4.6.2_w55k22b3233o5m7ts74x2pvkni
-      ra-ui-materialui: 4.6.2_k5quxdmufphejbkr5g3kglrq3u
+      ra-core: 4.6.2_val5uprng55ylxvcm3kfe7dosm
+      ra-i18n-polyglot: 4.6.2_val5uprng55ylxvcm3kfe7dosm
+      ra-language-english: 4.6.2_val5uprng55ylxvcm3kfe7dosm
+      ra-ui-materialui: 4.6.2_eahjet4liakbhcerpplmrvwzmi
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-hook-form: 7.41.1_react@18.2.0
+      react-hook-form: 7.41.2_react@18.2.0
       react-router: 6.6.1_react@18.2.0
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
@@ -3221,8 +3221,8 @@ packages:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
     dev: false
 
-  /react-hook-form/7.41.1_react@18.2.0:
-    resolution: {integrity: sha512-IHUozfwuqE+P201KIJwotMd+UCKqzIprseR8UUjz1jRupkZeubg0xyeMLIaT192zHv7vBBu9bibpNV5cIB4E9g==}
+  /react-hook-form/7.41.2_react@18.2.0:
+    resolution: {integrity: sha512-Uz5kNlfkEZve0sr5y2LsxPDGN3eNDjjKb1XJgand1E5Ay0S3zWo8YcJQNGu88/Zs6JaFnrJqTXbSr6B2q7wllA==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18

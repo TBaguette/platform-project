@@ -1,6 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import DonutComponent from "../components/diagram/DonutDiagram";
+import LinearComponent from "../components/diagram/LinearDiagram";
 
 const Welcome = () => (
   <>
@@ -14,9 +15,9 @@ const Welcome = () => (
           <h1>
             Visualisation des <strong>ventes immobilières</strong> !
           </h1>
-          
+
           <div className="grid">
-            <DonutComponent/>
+            <LinearComponent/>
             <DonutComponent/>
             <DonutComponent/>
           </div>
@@ -95,7 +96,7 @@ const Welcome = () => (
                     text-align: left;
                     flex: auto;
                 }
-                
+
                 .main__button {
                     display: inline-block;
                     padding: 10px 50px 10px 10px;
