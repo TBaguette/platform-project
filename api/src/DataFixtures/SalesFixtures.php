@@ -5,6 +5,8 @@ use App\Entity\Sale;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Monolog\DateTimeImmutable;
+//import la fonction getDepName
+include "src/Utils/depToReg.php";
 
 class SalesFixtures extends Fixture
 {
@@ -28,13 +30,14 @@ class SalesFixtures extends Fixture
                     $fileStream = fopen('./resources/sales/' . $file, 'r');
                     fgetcsv($fileStream, null, '|'); // Skip first line
                     while (($line = fgetcsv($fileStream, null, '|')) !== FALSE) {
-                        if ($line[9] !== 'Vente' || $line[10] <= 0 || !in_array($line[36], ['Maison', 'Appartement', 'Dépendance']) || $line[38] <= 0)
+                        if ($line[9] !== 'Vente' || $line[10] <= 0 || !in_array($line[36], ['Maison', 'Appartement']) || $line[38] <= 0)
                             continue;
                         // create a new sale
                         $sale = new Sale();
                         $sale->price = floatval($line[10]);
                         $sale->surface = floatval($line[38]);
-                        $sale->zip = $line[16];
+                        //swtich from code dep to name dep
+                        $sale->region = getRegName($line[18]);
                         $sale->type = $line[36];
                         $strdate = $line[8];
                         $array_date = explode('/', $strdate);
@@ -65,6 +68,7 @@ class SalesFixtures extends Fixture
 
 // 8 -> Date
 // 9 -> Type de vente
+// 18 -> Code département
 // 10 -> Prix
 // 36 -> Type local
 // 38 -> Surface bati

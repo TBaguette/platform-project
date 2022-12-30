@@ -1,29 +1,39 @@
 import * as d3 from "d3";
 import { BaseType } from "d3";
-import { MutableRefObject, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import InputDonutComponent from "../input/InputDonutDiagram";
 
 const DonutComponent = () => {
     const refChart = useRef(null);
+    const [data, setData] = useState([]);
+    const [year, setYear] = useState(2017);
 
     useEffect(() => {
-        const data = [
-            {label: "Bretagne", value: 5},
-            {label: "Nouvelle Aquitaine", value: 22},
-            {label: "Occitanie", value: 16},
-            {label: "Centre Val de Loire", value: 8},
-            {label: "Normandie", value: 11.5},
-            {label: "Ile de France", value: 13},
-            {label: "Grand Est", value: 12},
-            {label: "...", value: 12.5}
-        ];
+        if(refChart.current !== null)
+            refChart.current.classList.add('loading');
 
+
+        async function fetchData() {
+            const res = await fetch('/sales/count-by-year/' + year);
+            const data = await res.json();
+            setData(data);
+            if(refChart.current !== null)
+                refChart.current.classList.remove('loading');
+        }
+        fetchData();
+    }, [refChart, year]);
+
+
+    useEffect(() => {
         DonutChartSVG(refChart.current, data, {
-            width: 500,
+            width: 700,
             height: 500
         });
-    }, [refChart]);
+    }, [data]);
 
-    return <div className="chart" ref={refChart}></div>
+    return <div className={"chart" + (data.length !== 0 ? "" : " loading")} ref={refChart}>
+        <InputDonutComponent year={year} setYear={setYear}/>
+    </div>
 }
 
 const DonutChartSVG = (element: BaseType, data: { label: string, value: number }[], options : {
@@ -32,7 +42,7 @@ const DonutChartSVG = (element: BaseType, data: { label: string, value: number }
 }) => {
     const colorScale = d3  
         .scaleSequential()
-        .interpolator(d3.interpolateWarm)
+        .interpolator(d3.interpolateCool)
         .domain([0, data.length]);
 
     d3 
@@ -67,15 +77,14 @@ const DonutChartSVG = (element: BaseType, data: { label: string, value: number }
     arc
         .append('path')
         .attr('d', arcGenerator)
-        .style('fill', (_, i) => colorScale(i))
-        .style('stroke', '#ffffff')
-        .style('stroke-width', 0);
+        .style('fill', (_, i) => colorScale(i));
     
     arc
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('alignment-baseline', 'middle')
         .text((d) => d.data.value + "%")
+        .style('font-weight', 'bold')
         .style('fill', '#ffffff')
         .attr('transform', (d) => {
             const [x, y] = arcGenerator.centroid(d);
