@@ -5,7 +5,7 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 const DonutComponent = () => {
     const refChart = useRef(null);
     const [data, setData] = useState([]);
-    const [year, setYear] = useState('2017');
+    const [year, setYear] = useState(2017);
 
     useEffect(() => {
         if(refChart.current !== null)
@@ -34,14 +34,17 @@ const DonutComponent = () => {
         <form>
             <label>
                 Choisissez une année :
-                <input
-                type="number"
-                min="2017"
-                max="2022"
-                defaultValue="2017"
-                value={year}
-                onChange={event => setYear(event.target.value)}
-                />
+                <div className="choice">
+                    <input
+                        type="number"
+                        min="2017"
+                        max="2022"
+                        value={year}
+                        onChange={event => setYear(parseInt(event.target.value))}
+                    />
+                    <span className="up" onClick={() => { if(year+1 <= 2022) setYear(year+1) }}/>
+                    <span className="down" onClick={() => { if(year-1 >= 2017) setYear(year-1) }}/>
+                </div>
             </label>
         </form>
     </div>

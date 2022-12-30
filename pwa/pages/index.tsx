@@ -169,14 +169,50 @@ const Welcome = () => (
                     font-size: 15px;
                 }
 
+                .choice {
+                    display: inline-block;
+                    position: relative;
+                    margin: 5px;
+                }
+
                 input[type="number"] {
                     border: 2px solid #38a9b4;
                     border-radius: 5px;
                     padding: 5px;
-                    margin: 5px;
                     width: 75px;
                     text-align: center;
                     font-size: 15px;
+                }
+
+                input[type="number"] ~ .up::after {
+                    content: "▲";
+                    top: 0;
+                    border-radius: 0 3px 0 0;
+                }
+
+                input[type="number"] ~ .down::after {
+                    content: "▼";
+                    top: 50%;
+                    border-radius: 0 0 3px 0;
+                }
+
+                input[type="number"] ~ span::after {
+                    content: "";
+                    cursor: pointer;
+                    color: #ffffff;
+                    font-size: 10px;
+                    background-color: #38a9b4;
+                    position: absolute;
+                    right: 0;
+                    display: block;
+                    width: 30px;
+                    height: 50%;
+                }
+
+
+                input[type="number"] ~ span:hover::after {
+                    color: #38a9b4;
+                    background-color: #ffffff;
                 }
 
                 /***** MEDIAS *****/
