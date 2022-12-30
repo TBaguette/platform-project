@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { BaseType } from "d3";
-import { MutableRefObject, useEffect, useRef } from "react";
-import {fontFamily} from "@mui/system";
+import { useEffect, useRef } from "react";
+import InputBarComponent from "../input/InputBarDiagram";
 
 const BarComponent = () => {
   const refChart = useRef(null);
@@ -29,7 +29,9 @@ const BarComponent = () => {
     });
   }, [refChart]);
 
-  return (<div className="chart" ref={refChart}></div>);
+  return (<div className="chart" ref={refChart}>
+    <InputBarComponent/>
+  </div>);
 }
 
 const BarChartSVG = (element: BaseType, data: { date: string, sales: number }[], margin: {top: number, right: number, bottom: number, left:number},  options : {
