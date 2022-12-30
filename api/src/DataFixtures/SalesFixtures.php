@@ -52,7 +52,6 @@ class SalesFixtures extends Fixture
                             $manager->flush();
                             gc_collect_cycles();
                             print_r($count . ' sales loaded' . PHP_EOL);
-                            print_r(floatval($line[10]) . ' ' . floatval($line[38]) . PHP_EOL);
                         }
                     }
                     print_r($count . ' sales loaded' . PHP_EOL);
