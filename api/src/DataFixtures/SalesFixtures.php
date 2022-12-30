@@ -30,7 +30,7 @@ class SalesFixtures extends Fixture
                     $fileStream = fopen('./resources/sales/' . $file, 'r');
                     fgetcsv($fileStream, null, '|'); // Skip first line
                     while (($line = fgetcsv($fileStream, null, '|')) !== FALSE) {
-                        if ($line[9] !== 'Vente' || $line[10] <= 0 || !in_array($line[36], ['Maison', 'Appartement', 'Dépendance']) || $line[38] <= 0)
+                        if ($line[9] !== 'Vente' || $line[10] <= 0 || !in_array($line[36], ['Maison', 'Appartement']) || $line[38] <= 0)
                             continue;
                         // create a new sale
                         $sale = new Sale();
