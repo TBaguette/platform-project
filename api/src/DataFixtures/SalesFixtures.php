@@ -6,7 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Monolog\DateTimeImmutable;
 //import la fonction getDepName
-include "src/Utils/depEnum.php";
+include "src/Utils/depToReg.php";
 
 class SalesFixtures extends Fixture
 {
@@ -37,7 +37,7 @@ class SalesFixtures extends Fixture
                         $sale->price = floatval($line[10]);
                         $sale->surface = floatval($line[38]);
                         //swtich from code dep to name dep
-                        $sale->zip = getDepName($line[18]);
+                        $sale->region = getRegName($line[18]);
                         $sale->type = $line[36];
                         $strdate = $line[8];
                         $array_date = explode('/', $strdate);

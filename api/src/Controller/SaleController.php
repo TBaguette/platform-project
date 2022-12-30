@@ -21,13 +21,13 @@ class SaleController extends AbstractController
         $endDate = new \DateTimeImmutable("{$year}-12-31");
 
         $queryBuilder = $em->createQueryBuilder()
-            ->select('s.zip as zip')
+            ->select('s.region as region')
             ->addSelect('COUNT(s) as count')
             ->from(Sale::class, 's')
             ->where('s.date BETWEEN :start_date AND :end_date')
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDate)
-            ->groupBy('s.zip');
+            ->groupBy('s.region');
 
         $results = $queryBuilder->getQuery()->getResult();
 
@@ -37,7 +37,7 @@ class SaleController extends AbstractController
             $total += $value['count'];
         }
 
-        //transform zip inside label and count inside value all in json
+        //transform region inside label and count inside value all in json
         $json = [];
         array_push($json, [
             'label' => "Autres",
@@ -45,15 +45,17 @@ class SaleController extends AbstractController
         ]);
 
         foreach ($results as $key => $value) {
-            if($value['count'] * 100 / $total < 1) {
+            if($value['count'] * 100 / $total < 5) {
                 $json[0]['value'] += $value['count'] * 100 / $total;
             } else {
                 array_push($json, [
-                    'label' => $value['zip'],
-                    'value' => $value['count'] * 100 / $total
+                    'label' => $value['region'],
+                    'value' => number_format($value['count'] * 100 / $total, 1)
                 ]);
             }
         }
+
+        $json[0]['value'] = number_format($json[0]['value'], 1);
         return new JsonResponse(json_encode($json), 200, [], true);
     }
 
