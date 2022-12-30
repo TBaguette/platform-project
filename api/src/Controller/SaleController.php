@@ -78,8 +78,14 @@ class SaleController extends AbstractController
         return new JsonResponse($results, 200);
     }
 
-    #[Route('/countby/{type}/{from}/{to}', name: 'count', defaults: ['from' => '2000-01-01', 'to' => '2100-01-01'], methods: ['GET'])]
+    #[Route('/countby/{type}/{from}/{to}', name: 'count', methods: ['GET'])]
     public function countBy(string $type, string $from, string $to, ManagerRegistry $doctrine): JsonResponse {
+        if($type != 'day' && $type != 'month' && $type != 'year') {
+            return new JsonResponse('Invalid type', 400);
+        }
+        if(!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $from) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $to)) {
+            return new JsonResponse('Invalid date format', 400);
+        }
         $em = $doctrine->getManager();
         $query = null;
         $query = $em->createQuery(
