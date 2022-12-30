@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { BaseType } from "d3";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import InputDonutComponent from "../input/InputDonutDiagram";
 
 const DonutComponent = () => {
     const refChart = useRef(null);
@@ -31,22 +32,7 @@ const DonutComponent = () => {
     }, [data]);
 
     return <div className={"chart" + (data.length !== 0 ? "" : " loading")} ref={refChart}>
-        <form>
-            <label>
-                Choisissez une année :
-                <div className="choice">
-                    <input
-                        type="number"
-                        min="2017"
-                        max="2022"
-                        value={year}
-                        onChange={event => setYear(parseInt(event.target.value))}
-                    />
-                    <span className="up" onClick={() => { if(year+1 <= 2022) setYear(year+1) }}/>
-                    <span className="down" onClick={() => { if(year-1 >= 2017) setYear(year-1) }}/>
-                </div>
-            </label>
-        </form>
+        <InputDonutComponent year={year} setYear={setYear}/>
     </div>
 }
 

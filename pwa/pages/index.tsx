@@ -176,6 +176,47 @@ const Welcome = () => (
                     margin: 5px;
                 }
 
+                select {
+                    cursor: pointer;
+                    border: 2px solid #38a9b4;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                    padding: 5px;
+                    width: 150px;
+                    text-align: center;
+                    font-size: 15px;
+                }
+
+                select ~ span {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 30px;
+                    height: 100%;
+                    border-radius: 0 3px 3px 0;
+                    pointer-events: none;
+                }
+
+                select ~ span::before {
+                    content: "▼";
+                    cursor: pointer;
+                    color: #ffffff;
+                    font-size: 10px;
+                    background-color: #38a9b4;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 30px;
+                    height: 100%;
+                    border-radius: 0 3px 3px 0;
+                }
+
                 input[type="number"] {
                     border: 2px solid #38a9b4;
                     border-radius: 5px;
@@ -205,7 +246,9 @@ const Welcome = () => (
                     background-color: #38a9b4;
                     position: absolute;
                     right: 0;
-                    display: block;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     width: 30px;
                     height: 50%;
                 }

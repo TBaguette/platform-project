@@ -26,7 +26,7 @@ const LinearComponent = () => {
         });
     }, [data]);
 
-    return (<div className="chart" ref={refChart}>
+    return (<div className={"chart" + (data.length !== 0 ? "" : " loading")} ref={refChart}>
         <InputLinearComponent setType={setType}/>
     </div>)
 }
@@ -47,14 +47,6 @@ const LinearChartSVG = (element: BaseType, data: { label: string, price: number 
         .attr('height', options.height + margin.top + margin.bottom)
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    svg.append("text")
-        .attr("x", options.width / 2)
-        .attr("y", margin.top)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "20px")
-        .attr("font-family", "Roboto Slab")
-        .text("Prix moyen du mètre carré");
 
     let x = d3.scaleTime()
         .domain([
@@ -98,17 +90,6 @@ const LinearChartSVG = (element: BaseType, data: { label: string, price: number 
     xAxisGroup.call(xAxis);
 
     yAxisGroup.call(yAxis);
-
-    let points = svg.selectAll(".point")
-        .data(data)
-        .enter(); 
-
-    points.append("circle")
-        .attr("cx", (d) => x(new Date(d.label.split('/')[1], parseInt(d.label.split('/')[0])-1)))
-        .attr("cy", (d) => y(d.value))
-        .attr("r", 5)
-        .attr("fill", "steelblue")
-        .attr("class", "point");
 
     let line = d3.line()
         .x(function(d) { return x(new Date(d.label.split('/')[1], parseInt(d.label.split('/')[0])-1)); })
