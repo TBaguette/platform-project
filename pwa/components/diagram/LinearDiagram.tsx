@@ -18,8 +18,8 @@ const LinearComponent = () => {
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
 
     LinearChartSVG(refChart.current, data, margin, {
-      width: 400,
-      height: 400
+      width: 500 - margin.left - margin.right,
+      height: 500 - margin.top - margin.bottom
     });
   }, [refChart]);
 
@@ -31,11 +31,17 @@ const LinearChartSVG = (element: BaseType, data: { year: number, price: number }
   height: number
 }) => {
 
-  // ajouter une balise SVG à la page HTML
-  let svg = d3.select(element)
-    .append("svg")
-    .attr("width", options.width)
-    .attr("height", options.height);
+  d3
+    .select(element)
+    .select('svg')
+    .remove();
+
+  const svg = d3.select(element)
+    .append('svg')
+    .attr('width', options.width + margin.left + margin.right)
+    .attr('height', options.height + margin.top + margin.bottom)
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
 
   // ajouter un titre au diagramme
   svg.append("text")
@@ -43,26 +49,26 @@ const LinearChartSVG = (element: BaseType, data: { year: number, price: number }
     .attr("y", margin.top) // positionner le titre en haut du diagramme
     .attr("text-anchor", "middle") // centrer le titre
     .attr("font-size", "20px") // définir la taille du titre
+    .attr("font-family", "Roboto Slab")
     .text("Prix moyen du mètre carré");
 
-
   // définir l'échelle pour l'axe des X
-  let xScale = d3.scaleTime()
+  let x = d3.scaleTime()
     .domain([new Date(2017, 0, 1), new Date(2021, 0, 1)]) // définir l'intervalle de données pour l'axe des X
     .range([0, options.width]); // définir l'intervalle de l'espace de l'axe des X
 
 // définir l'échelle pour l'axe des Y
-  let yScale = d3.scaleLinear()
+  let y = d3.scaleLinear()
     .domain([0, 200]) // définir l'intervalle de données pour l'axe des Y
     .range([options.height, 0]); // définir l'intervalle de l'espace de l'axe des Y
 
   // ajouter un groupe pour l'axe des X
   let xAxisGroup = svg.append("g")
-    .attr("transform", "translate(0," + (options.height - margin.bottom) + ")");
+    .attr("transform", "translate(0," + (options.height) + ")");
 
   // ajouter un groupe pour l'axe des Y
   let yAxisGroup = svg.append("g")
-    .attr("transform", "translate(" + margin.left + ",0)");
+    .attr("transform", "translate(0,0)");
 
   // ajouter une étiquette "Année" à l'axe des X
   xAxisGroup.append("text")
@@ -80,13 +86,13 @@ const LinearChartSVG = (element: BaseType, data: { year: number, price: number }
     .text("Prix");
 
   // créer l'axe des X en utilisant l'échelle pour l'axe des X
-  let xAxis = d3.axisBottom(xScale)
+  let xAxis = d3.axisBottom(x)
     .ticks(5) // définir le nombre de marques sur l'axe
     .tickFormat(d3.timeFormat("%Y")) // définir le format de l'axe
     .tickSize(0);
 
   // créer l'axe des Y en utilisant l'échelle pour l'axe des Y
-  let yAxis = d3.axisLeft(yScale)
+  let yAxis = d3.axisLeft(y)
     .ticks(5) // définir le nombre de marques sur l'axe
     .tickSize(0);
 
@@ -96,7 +102,6 @@ const LinearChartSVG = (element: BaseType, data: { year: number, price: number }
   // ajouter l'axe des Y au groupe de l'axe des Y
   yAxisGroup.call(yAxis);
 
-
   // sélectionner et lier les données
   let points = svg.selectAll(".point")
     .data(data)
@@ -104,16 +109,16 @@ const LinearChartSVG = (element: BaseType, data: { year: number, price: number }
 
   // ajouter des points à l'aide de balises <circle>
   points.append("circle")
-    .attr("cx", (d) => xScale(d.year)) // définir la position en X des points en utilisant l'échelle pour l'axe des X
-    .attr("cy", (d) => yScale(d.price)) // définir la position en Y des points en utilisant l'échelle pour l'axe des Y
+    .attr("cx", (d) => x(d.year)) // définir la position en X des points en utilisant l'échelle pour l'axe des X
+    .attr("cy", (d) => y(d.price)) // définir la position en Y des points en utilisant l'échelle pour l'axe des Y
     .attr("r", 5) // définir le rayon des points
     .attr("fill", "steelblue") // définir la couleur des points
     .attr("class", "point"); // ajouter une classe aux points
 
   // définir la méthode pour tracer une ligne
   let line = d3.line()
-    .x(function(d) { return xScale(new Date(d.year, 0, 1)); }) // utiliser l'échelle pour l'axe des X pour mapper les données d'année sur l'espace de l'axe des X
-    .y(function(d) { return yScale(d.price); }) // utiliser l'échelle pour l'axe des Y pour mapper les données de prix sur l'espace de l'axe des Y
+    .x(function(d) { return x(new Date(d.year, 0, 1)); }) // utiliser l'échelle pour l'axe des X pour mapper les données d'année sur l'espace de l'axe des X
+    .y(function(d) { return y(d.price); })
 
   // ajouter une balise <path> à l'SVG pour tracer la ligne
   svg.append("path")
