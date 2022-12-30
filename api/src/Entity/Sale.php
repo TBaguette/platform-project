@@ -28,10 +28,10 @@ class Sale
     #[Assert\NotNull]
     public float $surface = 0;
 
-    /** ZIP code of this sale */
+    /** The region of this sale */
     #[ORM\Column]
     #[Assert\NotBlank]
-    public string $zip = '';
+    public string $region = '';
 
     /** type of this sale */
     #[ORM\Column]

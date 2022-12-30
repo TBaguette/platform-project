@@ -1,7 +1,60 @@
-# Progressive Web App
+# API Platform
 
-Contains a [Next.js](https://nextjs.org/) project bootstrapped with [pnpm](https://pnpm.io/) and [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+-   Année : M2 IWOCS
+-   Matière: WEB
+-   TP : API Platform
 
-The `admin` page contains an API Platform Admin project (refer to its [documentation](https://api-platform.com/docs/admin)).
+## Auteur(s)
 
-You can also generate your web app here by using the API Platform Client Generator (refer to its [documentation](https://api-platform.com/docs/client-generator/nextjs/)).
+| Nom     | Prénom     | login     | email                                  |
+| ------- | ---------- | --------  | -------------------------------------- |
+| Drouard | Anne-Laure |   Lewynn  | anne-laure.drouard@etu.univ-lehavre.fr |
+| Riette  | Nathan     | TBaguette | nathan.riette@etu.univ-lehavre.fr      |
+| Cazade  | Alexia     |  Pepalex  | alexia.xazade@etu.univ-lehavre.fr      |
+| Vauthier| Quentin    | Quentin-V | quentin.vauthier@etu.univ-lehavre.fr      |
+
+
+## Travail à réaliser
+
+Détail du tp : <https://pigne.org/teaching/webdev2/lab/FullStackLab>
+
+## Pour la mise en place
+
+Pour démarrer le projet : 
+
+```
+docker compose build --pull --no-cache
+docker compose up -d
+``` 
+
+
+Commencer par augmenter la mémoire vive :
+
+```
+docker-compose exec php \                                 
+php -d memory_limit=2G \
+/usr/bin/composer require doctrine/doctrine-migrations-bundle
+```
+
+Pour migrer la DB : 
+
+```
+docker compose exec php \
+    bin/console doctrine:migrations:diff
+docker compose exec php \
+    bin/console doctrine:migrations:migrate
+```
+
+Pour ajouter les données rendez vous sur 
+
+https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/
+
+Télécharger les valeurs de 2017 à 2022 et les placer dans le dossier api/resources/sales
+
+Executer ensuite la commande : 
+
+```
+docker compose exec php bin/console doctrine:fixtures:load
+```
+
+Ne pas oublier d'effectuer la commande 'npm install' dans le dossier pwa
