@@ -107,17 +107,38 @@ class SaleController extends AbstractController
         return new JsonResponse($final, 200);
     }
 
-    #[Route('/countby/{type}', name: 'count', methods: ['GET'])]
-    public function countBy(string $type, ManagerRegistry $doctrine): JsonResponse {
+    #[Route('/countby/{type}/{from}/{to}', name: 'count', defaults: ['from' => '2000-01-01', 'to' => '2100-01-01'], methods: ['GET'])]
+    public function countBy(string $type, string $from, string $to, ManagerRegistry $doctrine): JsonResponse {
         $em = $doctrine->getManager();
-
         $query = null;
         $query = $em->createQuery(
             'SELECT sale.date as date
-            FROM App\Entity\Sale sale'
+            FROM App\Entity\Sale sale
+            WHERE sale.date BETWEEN \'' . $from . '\' AND \'' . $to . '\''
         );
         $results = $query->getResult();
         $final = [];
+        $date = new \DateTimeImmutable($from);
+        $dateTo = new \DateTimeImmutable($to);
+        switch($type) {
+            case 'day':
+                while($date->format('d/m/Y') != $dateTo->format('d/m/Y')) {
+                    $final[$date->format('d/m/Y')] = 0;
+                    $date = $date->add(new \DateInterval('P1D'));
+                }
+            case 'month':
+                while($date->format('m/Y') != $dateTo->format('m/Y')) {
+                    $final[$date->format('m/Y')] = 0;
+                    $date = $date->add(new \DateInterval('P1M'));
+                }
+            case 'year':
+            default:
+                while($date->format('Y') != $dateTo->format('Y')) {
+                    $final[$date->format('Y')] = 0;
+                    $date = $date->add(new \DateInterval('P1Y'));
+                }
+                break;
+        }
         for($i = 0; $i < count($results); $i++) {
             switch($type) {
                 case 'day':
