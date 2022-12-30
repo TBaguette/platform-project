@@ -123,21 +123,94 @@ const Welcome = () => (
                     grid-template-columns: 1fr 1fr;
                 }
 
-                .grid > div {
+                .grid > .chart {
                     text-align: center;
+                    min-height: 500px;
                 }
 
-                .grid > div:last-child:nth-child(odd) {
+                .grid > .chart:last-child:nth-child(odd) {
                     grid-column: 1 / 3;
                 }
 
+                .chart.loading {
+                    position: relative;
+                }
+
+                .chart.loading svg {
+                    opacity: 0;
+                }
+
+                .loading:before {
+                    content: "";
+                    position: absolute;
+                    top: calc(50% - 30px);
+                    left: calc(50% - 30px);
+                    width: 50px;
+                    height: 50px;
+                    border-top: 5px solid #38a9b4;
+                    border-left: 5px solid #38a9b4;
+                    border-radius: 50%;
+                    animation: loading 0.5s linear infinite;
+                }
+
+                @keyframes loading {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                label {
+                    color: #38a9b4;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    font-size: 15px;
+                }
+
+                input[type="number"] {
+                    border: 2px solid #38a9b4;
+                    border-radius: 5px;
+                    padding: 5px;
+                    margin: 5px;
+                    width: 75px;
+                    text-align: center;
+                    font-size: 15px;
+                }
+
                 /***** MEDIAS *****/
+
+                @media (max-width: 1800px) {
+                    .grid {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .grid > .chart {
+                        width: fit-content;
+                        align-self: center;
+                    }
+                }
 
                 @media (max-width: 1200px) {
                     .main__content {
                         width: 100%;
                         text-align: center;
                         padding: 20px;
+                    }
+                }
+
+                @media (max-width: 1000px) {
+                    .grid > .chart {
+                        transform: scale(0.8);
+                    }
+                }
+
+
+                @media (max-width: 800px) {
+                    .grid > .chart {
+                        transform: scale(0.6);
                     }
                 }
 
