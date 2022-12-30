@@ -1,6 +1,7 @@
 import {useEffect, useRef} from "react";
 import {BaseType} from "d3";
 import * as d3 from "d3";
+import InputLinearComponent from "../input/InputLinearDiagram";
 
 const LinearComponent = () => {
 
@@ -23,7 +24,9 @@ const LinearComponent = () => {
     });
   }, [refChart]);
 
-  return <div className="chart" ref={refChart}></div>
+  return (<div className="chart" ref={refChart}>
+    <InputLinearComponent/>
+  </div>)
 }
 
 const LinearChartSVG = (element: BaseType, data: { year: number, price: number }[], margin: {top: number, right: number, bottom: number, left: number}, options : {
