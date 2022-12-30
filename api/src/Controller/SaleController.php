@@ -57,25 +57,54 @@ class SaleController extends AbstractController
         return new JsonResponse(json_encode($json), 200, [], true);
     }
 
-    #[Route('/price-evolution/{type}/{year}', name: 'sale_price_evolution', methods: ['GET'])]
-    public function getPriceEvolution(ManagerRegistry $doctrine, string $type, int $year): JsonResponse
+    #[Route('/price-evolution/{type}', name: 'sale_price_evolution', methods: ['GET'])]
+    public function getPriceEvolution(ManagerRegistry $doctrine, string $type): JsonResponse
     {
         $em = $doctrine->getManager();
         
+        $startDate = new \DateTimeImmutable("2017-01-01");
+        $endDate = new \DateTimeImmutable("2022-12-31");
+
         $queryBuilder = $em->createQueryBuilder()
-            ->select('MONTH(s.date) as month')
-            ->addSelect('AVG(s.price / s.surface) as avg_price')
+            ->select('s.price as price')
+            ->addSelect('s.surface as surface')
+            ->addSelect('s.date as date')
             ->from(Sale::class, 's')
-            ->where('s.type = :type')
-            ->andWhere('YEAR(s.date) = :year')
-            ->setParameter('type', $type)
-            ->setParameter('year', $year)
-            ->groupBy('month')
-            ->orderBy('month');
+            ->where('LOWER(s.type) = LOWER(:type) AND s.date BETWEEN :start_date AND :end_date')
+            ->setParameter('start_date', $startDate)
+            ->setParameter('end_date', $endDate)
+            ->setParameter('type', $type);
 
         $results = $queryBuilder->getQuery()->getResult();
 
-        return new JsonResponse($results, 200);
+        //calcul la somme des prix par mois et des surfaces par mois
+
+        $sums = [];
+
+        for ($year = 2017; $year <= 2022; $year++) {
+            for ($month = 1; $month <= 12; $month++) {
+                $date = \DateTime::createFromFormat('Y-m-d', "{$year}-{$month}-01");
+                $sums[$date->format('m/Y')] = ['price' => 0, 'surface' => 0];
+            }
+        }
+        
+        foreach ($results as $sale) {
+            $monthYear = $sale['date']->format('m/Y');
+            $sums[$monthYear]['price'] += $sale['price'];
+            $sums[$monthYear]['surface'] += $sale['surface'];
+        }
+
+        $final=[];
+        // affiche le résultat
+        foreach ($sums as $monthYear => $sum) {
+            array_push($final, [
+                'label' => $monthYear,
+                'value' => $sum['price'] / ($sum['surface'] === 0 ? 1 : $sum['surface'])
+            ]);
+        }
+        
+
+        return new JsonResponse($final, 200);
     }
 
     #[Route('/countby/{type}', name: 'count', methods: ['GET'])]
