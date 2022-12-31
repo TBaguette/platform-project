@@ -111,7 +111,7 @@ class SaleController extends AbstractController
 
     #[Route('/countby/{type}/{from}/{to}', name: 'count', methods: ['GET'])]
     public function countBy(string $type, string $from, string $to, ManagerRegistry $doctrine): JsonResponse {
-        if($type != 'day' && $type != 'month' && $type != 'year') {
+        if($type != 'day' && $type != 'week' && $type != 'month' && $type != 'year') {
             return new JsonResponse('Invalid type', 400);
         }
         if(!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $from) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $to)) {
@@ -128,49 +128,50 @@ class SaleController extends AbstractController
         $final = [];
         $date = new \DateTimeImmutable($from);
         $dateTo = new \DateTimeImmutable($to);
+        $format = 'Y';
+        $formatInterval = 'P1Y';
         switch($type) {
             case 'day':
-                while($date->format('d/m/Y') != $dateTo->format('d/m/Y')) {
-                    $final[$date->format('d/m/Y')] = 0;
-                    $date = $date->add(new \DateInterval('P1D'));
-                }
+                $format = 'd/m/Y';
+                $formatInterval = 'P1D';
+                break;
+            case 'week':
+                $format = 'W/Y';
+                $formatInterval = 'P1W';
+                break;
             case 'month':
-                while($date->format('m/Y') != $dateTo->format('m/Y')) {
-                    $final[$date->format('m/Y')] = 0;
-                    $date = $date->add(new \DateInterval('P1M'));
-                }
+                $format = 'm/Y';
+                $formatInterval = 'P1M';
+                break;
             case 'year':
             default:
-                while($date->format('Y') != $dateTo->format('Y')) {
-                    $final[$date->format('Y')] = 0;
-                    $date = $date->add(new \DateInterval('P1Y'));
-                }
+                $format = 'Y';
+                $formatInterval = 'P1Y';
                 break;
         }
-        for($i = 0; $i < count($results); $i++) {
-            switch($type) {
-                case 'day':
-                    if(isset($final[$results[$i]['date']->format('d/m/Y')])) {
-                        $final[$results[$i]['date']->format('d/m/Y')]++;
-                    } else {
-                        $final[$results[$i]['date']->format('d/m/Y')] = 1;
-                    }
-                    break;
-                case 'month':
-                    if(isset($final[$results[$i]['date']->format('m/Y')])) {
-                        $final[$results[$i]['date']->format('m/Y')]++;
-                    } else {
-                        $final[$results[$i]['date']->format('m/Y')] = 1;
-                    }
-                    break;
-                case 'year':
-                default:
-                    if(isset($final[$results[$i]['date']->format('Y')])) {
-                        $final[$results[$i]['date']->format('Y')]++;
-                    } else {
-                        $final[$results[$i]['date']->format('Y')] = 1;
-                    }
-                    break;
+
+        while($date->format($format) != $dateTo->format($format)) {
+            array_push($final, [
+                'label' => $date->format($format),
+                'value' => 0
+            ]);
+            $date = $date->add(new \DateInterval($formatInterval));
+        }
+
+        foreach($results as $result) {
+            $date = $result['date']->format($format);
+            $exist = false;
+            foreach($final as $key => $value) {
+                if($value['label'] == $date) {
+                    $final[$key]['value']++;
+                    $exist = true;
+                }
+            }
+            if(!$exist) {
+                array_push($final, [
+                    'label' => $date,
+                    'value' => 1
+                ]);
             }
         }
 

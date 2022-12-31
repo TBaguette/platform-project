@@ -134,7 +134,7 @@ const Welcome = () => (
                     grid-column: 1 / 3;
                 }
 
-                .chart.loading {
+                .chart {
                     position: relative;
                 }
 
@@ -217,12 +217,15 @@ const Welcome = () => (
                     height: 100%;
                     border-radius: 0 3px 3px 0;
                 }
-
+                
                 input[type="number"] {
+                    width: 75px;
+                }
+
+                input[type="number"], input[type="date"] {
                     border: 2px solid #38a9b4;
                     border-radius: 5px;
                     padding: 5px;
-                    width: 75px;
                     text-align: center;
                     font-size: 15px;
                 }

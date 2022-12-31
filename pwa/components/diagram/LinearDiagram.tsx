@@ -18,7 +18,7 @@ const LinearComponent = () => {
     }, [refChart, type]);
 
     useEffect(() => {
-        const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+        const margin = { top: 20, right: 20, bottom: 60, left: 60 };
 
         LinearChartSVG(refChart.current, data, margin, {
             width: 500 - margin.left - margin.right,
@@ -65,29 +65,16 @@ const LinearChartSVG = (element: BaseType, data: { label: string, price: number 
     let yAxisGroup = svg.append("g")
         .attr("transform", "translate(0,0)");
 
-    xAxisGroup.append("text")
-        .attr("x", options.width / 2)
-        .attr("y", margin.bottom - 5)
-        .attr("text-anchor", "middle")
-        .text("Année");
-    
-    yAxisGroup.append("text")
-        .attr("x", -options.height / 2)
-        .attr("y", -margin.left + 10)
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .text("Prix");
-
     let xAxis = d3.axisBottom(x)
-        .ticks(5)
-        .tickFormat(d3.timeFormat("%m/%Y"))
-        .tickSize(0);
+        .tickArguments([d3.timeMonth.every(3), d3.timeFormat("%b %Y")])
+        .tickSize(5);
 
     let yAxis = d3.axisLeft(y)
-        .ticks(5)
         .tickSize(0);
 
-    xAxisGroup.call(xAxis);
+    xAxisGroup.call(xAxis)
+    .selectAll("text")
+    .attr("transform", "rotate(45) translate(30,0)");
 
     yAxisGroup.call(yAxis);
 
@@ -98,9 +85,62 @@ const LinearChartSVG = (element: BaseType, data: { label: string, price: number 
     svg.append("path")
         .datum(data)
         .attr("fill", "none")
-        .attr("stroke", "steelblue")
+        .attr("stroke", "#38a9b4")
         .attr("stroke-width", 1.5)
         .attr("d", line);
+
+    const tooltip = d3.select(element)
+        .append("div")
+        .style("display", "none")
+        .style("position", "absolute")
+        .style("background-color", "white")
+        .style("color", "#38a9b4")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("border-color", "#38a9b4")
+        .style("padding", "5px");
+
+    const points = svg.selectAll(".point")
+        .data(data)
+        .enter();
+
+    points.append("circle")
+        .attr("cx", (d) => x(new Date(d.label.split('/')[1], parseInt(d.label.split('/')[0])-1)))
+        .attr("cy", (d) => y(d.value))
+        .attr("r", 5)
+        .attr("fill", "#38a9b4")
+        .attr("class", "point")
+        .style("cursor", "pointer")
+        .on("mouseover", function(d) {
+            const label = d.target.__data__.label;
+            const value = parseFloat(d.target.__data__.value);
+            console.log(label, value);
+            tooltip.transition()
+                .style("display", "block");
+            tooltip.html(label + " : " + value.toFixed(2) + "€")
+                .style("left", (margin.left + x(new Date(label.split('/')[1], parseInt(label.split('/')[0])-1))) + "px")
+                .style("top", (margin.top + y(value)) + "px");
+        })
+        .on("mouseout", function(d) {
+            tooltip.transition()
+                .style("display", "none");
+        });
+
+    let legend = svg.append("g");
+
+    legend.append("text")
+        .attr("x", options.width / 2)
+        .attr("y", options.height + margin.bottom - 1)
+        .attr("text-anchor", "middle")
+        .text("Mois");
+
+    legend.append("text")
+        .attr("x", -options.height / 2)
+        .attr("y", -margin.left + 10)
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
+        .text("Prix");
 };
 
 export default LinearComponent;
