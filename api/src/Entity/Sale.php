@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /** A Sale. */
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: SaleRepository::class)]
 class Sale
 {
     /** The id of this sale. */
@@ -50,7 +50,7 @@ class Sale
     {
         return $this->id;
     }
-     /**
+    /**
      * Finds all sales for a given year.
      *
      * @param \Doctrine\ORM\EntityManagerInterface $em

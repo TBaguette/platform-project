@@ -6,6 +6,8 @@ use App\Repository\SaleRepository;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 
+set_time_limit(120);
+
 class SaleEvolutionProvider implements ProviderInterface
 {
     private $saleRepository;

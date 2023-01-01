@@ -53,8 +53,8 @@ use App\State\ModeProvider;
         )
     ]
 )]
+
 class SaleByMode
 {
     protected \DateTimeImmutable $date;
-
 }
