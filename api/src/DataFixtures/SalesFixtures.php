@@ -50,7 +50,7 @@ class SalesFixtures extends Fixture
 
                         if ($count % 1000 == 0) {
                             $manager->flush();
-                            gc_collect_cycles();
+                            $manager->clear();
                             print_r($count . ' sales loaded' . PHP_EOL);
                         }
                     }
@@ -61,7 +61,7 @@ class SalesFixtures extends Fixture
             }
         }
         $manager->flush();
-        gc_collect_cycles();
+        $manager->clear();
         print_r('Sales fixtures loaded');
     }
 }

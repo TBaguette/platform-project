@@ -9,14 +9,15 @@ const DonutComponent = () => {
     const [year, setYear] = useState(2017);
 
     useEffect(() => {
-        if(refChart.current !== null)
+        if(refChart.current !== null) {
             refChart.current.classList.add('loading');
-
-
+            refChart.current.classList.add('isChargedFirstTime');
+        }
+        
         async function fetchData() {
-            const res = await fetch('/sales/count-by-year/' + year);
+            const res = await fetch('/count_by_year/' + year);
             const data = await res.json();
-            setData(data);
+            setData(data["hydra:member"]);
             if(refChart.current !== null)
                 refChart.current.classList.remove('loading');
         }

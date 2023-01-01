@@ -138,7 +138,7 @@ const Welcome = () => (
                     position: relative;
                 }
 
-                .chart.loading svg {
+                .chart.loading:not(.isChargedFirstTime) svg {
                     opacity: 0;
                 }
 

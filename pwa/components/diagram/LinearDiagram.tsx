@@ -9,10 +9,17 @@ const LinearComponent = () => {
     const [type, setType] = useState('appartement');
 
     useEffect(() => {
+        if(refChart.current !== null) {
+            refChart.current.classList.add('loading');
+            refChart.current.classList.add('isChargedFirstTime');
+        }
+
         async function fetchData() {
-            const response = await fetch('/sales/price-evolution/' + type);
+            const response = await fetch('/sale_evolution/' + type);
             const data = await response.json();
-            setData(data);
+            setData(data["hydra:member"]);
+            if(refChart.current !== null)
+                refChart.current.classList.remove('loading');
         }
         fetchData();
     }, [refChart, type]);
@@ -115,7 +122,6 @@ const LinearChartSVG = (element: BaseType, data: { label: string, price: number 
         .on("mouseover", function(d) {
             const label = d.target.__data__.label;
             const value = parseFloat(d.target.__data__.value);
-            console.log(label, value);
             tooltip.transition()
                 .style("display", "block");
             tooltip.html(label + " : " + value.toFixed(2) + "€")

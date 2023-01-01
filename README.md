@@ -54,5 +54,5 @@ Télécharger les valeurs de 2017 à 2022 et les placer dans le dossier api/reso
 Executer ensuite la commande : 
 
 ```
-docker compose exec php bin/console doctrine:fixtures:load --append
+docker compose exec php bin/console doctrine:fixtures:load
 ```

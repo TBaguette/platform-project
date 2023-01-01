@@ -33,7 +33,7 @@ class ModeProvider implements ProviderInterface
                 $formatInterval = 'P1D';
                 break;
             case 'week':
-                $format = 'W/Y';
+                $format = 'W/o';
                 $formatInterval = 'P1W';
                 break;
             case 'month':
