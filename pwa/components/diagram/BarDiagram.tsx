@@ -6,7 +6,7 @@ import InputBarComponent from "../input/InputBarDiagram";
 const BarComponent = () => {
     const refChart = useRef(null);
     const [data, setData] = useState(null);
-    const [type, setType] = useState("year");
+    const [type, setType] = useState("month");
     const [dateStart, setDateStart] = useState("2017-01-01");
     const [dateEnd, setDateEnd] = useState("2017-12-31");
 
@@ -33,8 +33,8 @@ const BarComponent = () => {
 
         if(SVG.data === undefined) {
             SVG.BarChartSVG(refChart.current, data, type, margin, {
-                width: 500,
-                height: 500
+                width: 500 - margin.left - margin.right,
+                height: 500 - margin.top - margin.bottom
             });
         } else {
             SVG.update(data, type);
@@ -42,6 +42,7 @@ const BarComponent = () => {
     }, [data]);
 
     return (<div className={"chart" + (data !== null ? "" : " loading")} ref={refChart}>
+        <div className="legend-chart">Nombre de ventes par intervalle</div>
         <InputBarComponent type={type} setType={setType} dateStart={dateStart} setDateStart={setDateStart} dateEnd={dateEnd} setDateEnd={setDateEnd}/>
     </div>);
 }
@@ -66,6 +67,10 @@ class SVG {
         height: number
     }) {
         SVG.data = data;
+
+        d3.select(element)
+            .select('svg')
+            .remove();
 
         let svg;
         let xAxisGroup;
@@ -157,7 +162,7 @@ class SVG {
         legend.append("text")
             .attr('class', 'y legend')
             .attr("x", -options.height / 2)
-            .attr("y", -margin.left + 10)
+            .attr("y", -margin.left + 15)
             .attr("text-anchor", "middle")
             .attr("transform", "rotate(-90)")
             .text("Nombre de ventes");
@@ -176,7 +181,7 @@ class SVG {
                 const value = parseFloat(d.target.__data__.value);
                 tooltip.transition()
                     .style("display", "block");
-                tooltip.html(label + " : " + value.toFixed(2) + "€")
+                tooltip.html(label + " : " + value.toFixed(2) + " ventes")
                     .style("left", (margin.left + x(label)) + "px")
                     .style("bottom", (options.height - 10 - y(value)) + "px");
             })
@@ -200,8 +205,8 @@ class SVG {
     };
 
     static update(data: { label: string, value: number }[], type: string) {
-        // update scales
         SVG.data = data;
+
         const svg = SVG.svg;
         const x = SVG.x;
         const y = SVG.y;
@@ -216,10 +221,8 @@ class SVG {
         y.domain([Math.min(...data.map(item => item.value))-10, Math.max(...data.map(item => item.value))+10])
             .range([options.height - 10, 0]);
     
-        // bind data to rectangles
         svg.selectAll("rect").remove();
-            
-        // update legend
+        
         let legendType = 'Mois';
         switch (type) {
             case 'year':
@@ -238,11 +241,9 @@ class SVG {
         }
         svg.select(".legend").select(".x.legend").text(legendType);
 
-    
-        // update axes
         let xAxis = d3.axisBottom(x)
             .tickFormat(function(d, i) {
-                if (data.length < 20 || i % (Math.floor(data.length / 7)) === 0) {
+                if (data.length < 20 || i % (Math.floor(data.length / 10)) === 0) {
                     return d;
                 }
                 return "";
@@ -258,18 +259,18 @@ class SVG {
             .attr("class", "x axis")
             .attr("transform", "translate(10," + (options.height - 10) + ")")
             .style("opacity", 0);
-        SVG.yAxisGroup = SVG.svg.append("g")
+        SVG.yAxisGroup = svg.append("g")
             .attr("class", "y axis")
             .attr("transform", "translate(10,0)")
             .style("opacity", 0);
         
         SVG.xAxisGroup.transition().duration(500).style("opacity", 1)
-            .call(xAxis);
+            .call(xAxis)
+            .selectAll("text")
+            .attr("transform", (type !== 'year') ? "rotate(45) translate(30,0)" : "");
         SVG.yAxisGroup.transition().duration(500).style("opacity", 1)
             .call(yAxis);
         
-    
-        // add new rectangles
         svg.selectAll("rect")
             .data(data)
             .enter()
@@ -284,7 +285,7 @@ class SVG {
                 const value = parseFloat(d.target.__data__.value);
                 tooltip.transition()
                     .style("display", "block");
-                tooltip.html(label + " : " + value.toFixed(2) + "€")
+                tooltip.html(label + " : " + value.toFixed(2) + " ventes")
                     .style("left", (margin.left + x(label)) + "px")
                     .style("bottom", (options.height - 10 - y(value)) + "px");
             })

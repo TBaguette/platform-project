@@ -149,7 +149,7 @@ const Welcome = () => (
                     left: calc(50% - 30px);
                     width: 50px;
                     height: 50px;
-                    border-top: 5px solid #38a9b4;
+                    border-right: 5px solid white;
                     border-left: 5px solid #38a9b4;
                     border-radius: 50%;
                     animation: loading 0.5s linear infinite;
@@ -162,6 +162,18 @@ const Welcome = () => (
                     100% {
                         transform: rotate(360deg);
                     }
+                }
+
+                .legend-chart {
+                    font-size: 20px;
+                    font-family: "Roboto Slab", serif;
+                    font-weight: 300;
+                    margin: 0 0 10px;
+                    line-height: 30px;
+                }
+
+                .legend {
+                    font-family: "Roboto Slab", serif;
                 }
 
                 label {
