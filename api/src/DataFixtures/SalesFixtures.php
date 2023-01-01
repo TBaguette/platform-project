@@ -48,7 +48,7 @@ class SalesFixtures extends Fixture
                         $manager->persist($sale);
                         $count++;
 
-                        if ($count % $BATCH_SIZE == 0) {
+                        if ($count % 1000 == 0) {
                             $manager->flush();
                             gc_collect_cycles();
                             print_r($count . ' sales loaded' . PHP_EOL);

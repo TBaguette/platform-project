@@ -3,14 +3,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Controller\SaleController;
+
 
 /** A Sale. */
+
 #[ORM\Entity]
 class Sale
 {
