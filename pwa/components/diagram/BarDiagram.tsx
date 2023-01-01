@@ -7,8 +7,8 @@ const BarComponent = () => {
     const refChart = useRef(null);
     const [data, setData] = useState(null);
     const [type, setType] = useState("month");
-    const [dateStart, setDateStart] = useState("2017-01-01");
-    const [dateEnd, setDateEnd] = useState("2017-12-31");
+    const [dateStart, setDateStart] = useState("2018-01-01");
+    const [dateEnd, setDateEnd] = useState("2018-06-30");
 
     useEffect(() => {
         if(refChart.current !== null) {
@@ -98,7 +98,7 @@ class SVG {
             .padding(0.1);
 
         const y = d3.scaleLinear()
-            .domain([Math.min(...data.map(item => item.value))-10, Math.max(...data.map(item => item.value))+10])
+            .domain([0, Math.max(...data.map(item => item.value))+1000])
             .range([options.height - 10, 0]);
 
         let xAxis = d3.axisBottom(x)
@@ -218,7 +218,7 @@ class SVG {
         x.domain(data.map(d => d.label))
             .range([0, options.width - 10])
             .padding(0.1);
-        y.domain([Math.min(...data.map(item => item.value))-10, Math.max(...data.map(item => item.value))+10])
+        y.domain([0, Math.max(...data.map(item => item.value))+1000])
             .range([options.height - 10, 0]);
     
         svg.selectAll("rect").remove();

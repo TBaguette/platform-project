@@ -51,7 +51,7 @@ class SVG {
             .remove();
 
         const colorScale = d3.scaleSequential()
-            .interpolator(d3.interpolateCool)
+            .interpolator(d3.interpolateLab('#8ad4db', '#246e75'))
             .domain([0, data.length]);
         
         const svg = d3.select(element)

@@ -6,7 +6,7 @@ import InputLinearComponent from "../input/InputLinearDiagram";
 const LinearComponent = () => {
     const refChart = useRef(null);
     const [data, setData] = useState([]);
-    const [type, setType] = useState('appartement');
+    const [type, setType] = useState('maison');
 
     useEffect(() => {
         if(refChart.current !== null) {
@@ -40,7 +40,7 @@ const LinearComponent = () => {
 
     return (<div className={"chart" + (data.length !== 0 ? "" : " loading")} ref={refChart}>
         <div className="legend-chart">Prix moyen du mètre carré</div>
-        <InputLinearComponent setType={setType}/>
+        <InputLinearComponent type={type} setType={setType}/>
     </div>)
 }
 

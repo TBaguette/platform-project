@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 
 interface Props {
+    type: string;
     setType: Dispatch<SetStateAction<string>>;
 }
 
-const InputLinearComponent = ({ setType } : Props) => {
+const InputLinearComponent = ({ type, setType } : Props) => {
 
     return (
         <form>
@@ -14,6 +15,7 @@ const InputLinearComponent = ({ setType } : Props) => {
                     <select
                         id="type"
                         onChange={(e) => { setType(e.target.value) }}
+                        value={type}
                     >
                         <option value="appartement">Appartement</option>
                         <option value="maison">Maison</option>

@@ -98,28 +98,6 @@ const Welcome = () => (
                     flex: auto;
                 }
 
-                .main__button {
-                    display: inline-block;
-                    padding: 10px 50px 10px 10px;
-                    border: 3px solid #339ba5;
-                    font-size: 22px;
-                    color: #339ba5;
-                    text-transform: uppercase;
-                    margin: 15px 0;
-                    overflow: hidden;
-                    transition: all ease 0.3s;
-                    cursor: pointer;
-                    position: relative;
-                }
-
-                .main__button:hover {
-                    background-color: #afe5e5;
-                }
-
-                .main__button:hover svg {
-                    transform: translateY(-50%) rotate(35deg);
-                }
-
                 .grid {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
