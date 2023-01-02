@@ -1,0 +1,7 @@
+App\Entity\Sale:
+  sale_{1..500}:
+    price: <numberBetween(100, 1000)>
+    surface: <numberBetween(10, 100)>
+    type: <randomElement(['Maison', 'Appartement'])>
+    date: <dateTimeBetween('2017-07-01', '2022-06-31')>
+    region: <randomElement(['Auvergne-Rhône-Alpes', 'Bourgogne-Franche-Comté', 'Bretagne', 'Centre-Val de Loire', 'Corse', 'Grand Est', 'Hauts-de-France', 'Île-de-France', 'Normandie', 'Nouvelle-Aquitaine', 'Occitanie', 'Pays de la Loire', 'Provence-Alpes-Côte d'Azur'])>

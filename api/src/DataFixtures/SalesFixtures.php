@@ -8,6 +8,9 @@ use Monolog\DateTimeImmutable;
 //import la fonction getDepName
 include "src/Utils/depToReg.php";
 
+/**
+ * @codeCoverageIgnore
+ */
 class SalesFixtures extends Fixture
 {
     
@@ -42,7 +45,7 @@ class SalesFixtures extends Fixture
                         $strdate = $line[8];
                         $array_date = explode('/', $strdate);
                         $strdate = $array_date[2] . '-' . $array_date[1] . '-' . $array_date[0];
-                        $date = new \DateTimeImmutable($strdate);
+                        $date = new \DateTime($strdate);
                         $sale->date = $date;
                         // save the sale
                         $manager->persist($sale);

@@ -49,28 +49,28 @@ class ModeProvider implements ProviderInterface
                 break;
         }
 
+        $added = [];
         while($date->format($format) != $dateTo->format($format)) {
             array_push($final, [
                 'label' => $date->format($format),
                 'value' => 0
             ]);
+            array_push($added, $date->format($format));
             $date = $date->add(new \DateInterval($formatInterval));
+        }
+        if(!in_array($dateTo->format($format), $added)) {
+            array_push($final, [
+                'label' => $dateTo->format($format),
+                'value' => 0
+            ]);
         }
 
         foreach($results as $result) {
             $date = $result['date']->format($format);
-            $exist = false;
             foreach($final as $key => $value) {
                 if($value['label'] == $date) {
                     $final[$key]['value']++;
-                    $exist = true;
                 }
-            }
-            if(!$exist) {
-                array_push($final, [
-                    'label' => $date,
-                    'value' => 1
-                ]);
             }
         }
         

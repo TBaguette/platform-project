@@ -17,7 +17,7 @@ class CountByTest extends ApiTestCase
             "@id" => "/number_sales_by_date/year/2018-01-01/2020-12-31",
             "@type" => "hydra:Collection"
         ]);
-        //$this->assertCount(3, $response->toArray()['hydra:member']);
+        $this->assertCount(3, $response->toArray()['hydra:member']);
     }
 
     public function testCountByMonth(): void
@@ -31,7 +31,7 @@ class CountByTest extends ApiTestCase
             "@id" => "/number_sales_by_date/month/2019-07-01/2020-12-31",
             "@type" => "hydra:Collection"
         ]);
-        //$this->assertCount(18, $response->toArray()['hydra:member']);
+        $this->assertCount(18, $response->toArray()['hydra:member']);
     }
 
     public function testCountByWeek(): void
@@ -45,6 +45,34 @@ class CountByTest extends ApiTestCase
             "@id" => "/number_sales_by_date/week/2020-01-01/2020-03-31",
             "@type" => "hydra:Collection"
         ]);
-        //$this->assertCount(14, $response->toArray()['hydra:member']);
+        $this->assertCount(14, $response->toArray()['hydra:member']);
+    }
+
+    public function testCountByDay(): void
+    {
+        $response = static::createClient()->request('GET', '/number_sales_by_date/day/2020-01-01/2020-01-31');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            "@context" => "/contexts/SaleByMode",
+            "@id" => "/number_sales_by_date/day/2020-01-01/2020-01-31",
+            "@type" => "hydra:Collection"
+        ]);
+        $this->assertCount(31, $response->toArray()['hydra:member']);
+    }
+
+    public function testCountNoData(): void
+    {
+        $response = static::createClient()->request('GET', '/number_sales_by_date/day/2100-01-01/2100-01-07');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            "@context" => "/contexts/SaleByMode",
+            "@id" => "/number_sales_by_date/day/2100-01-01/2100-01-07",
+            "@type" => "hydra:Collection"
+        ]);
+        $this->assertCount(7, $response->toArray()['hydra:member']);
     }
 }
