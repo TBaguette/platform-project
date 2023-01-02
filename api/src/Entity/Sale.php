@@ -39,7 +39,7 @@ class Sale
     /** The date of this sale. */
     #[ORM\Column]
     #[Assert\NotNull]
-    public ?\DateTimeImmutable $date = null;
+    public ?\DateTime $date = null;
 
     public function __construct()
     {
