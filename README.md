@@ -56,3 +56,13 @@ Executer ensuite la commande :
 ```
 docker compose exec php bin/console doctrine:fixtures:load
 ```
+
+## Mise en place pour les tests backend
+- Executer la commande : `docker compose exec -T php bin/console -e test doctrine:database:create` pour créer la base de données de test
+- Executer la commande : `docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction` pour migrer la base de données de test
+- Chargez les fixtures de test avec la commande : `docker compose exec php bin/console hautelook:fixtures:load --env=test`
+- Lancez les tests avec la commande : `docker compose exec php bin/phpunit`
+
+Pour afficher le coverage des tests, lancez la commande : `docker compose exec php bin/phpunit --coverage-text`
+
+Ou pour un affichage plus complet : `docker compose exec php bin/phpunit --coverage-html coverage` puis ouvrir le fichier coverage/index.html
