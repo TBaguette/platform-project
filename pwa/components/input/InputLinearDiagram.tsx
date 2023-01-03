@@ -5,16 +5,18 @@ interface Props {
     setType: Dispatch<SetStateAction<string>>;
 }
 
-const InputLinearComponent = ({ type, setType } : Props) => {
-
+const InputLinearComponent = ({ type, setType }: Props) => {
     return (
-        <form>
+        <form data-testid="input">
             <label>
                 Sélectionnez un type de logement :
                 <div className="choice">
                     <select
                         id="type"
-                        onChange={(e) => { setType(e.target.value) }}
+                        data-testid="type-habitation"
+                        onChange={(e) => {
+                            setType(e.target.value);
+                        }}
                         value={type}
                     >
                         <option value="appartement">Appartement</option>
@@ -25,6 +27,6 @@ const InputLinearComponent = ({ type, setType } : Props) => {
             </label>
         </form>
     );
-}
+};
 
 export default InputLinearComponent;

@@ -9,12 +9,19 @@ interface Props {
     setDateEnd: Dispatch<SetStateAction<string>>;
 }
 
-const InputBarComponent = ({ type, setType, dateStart, setDateStart, dateEnd, setDateEnd } : Props) => {
+const InputBarComponent = ({
+    type,
+    setType,
+    dateStart,
+    setDateStart,
+    dateEnd,
+    setDateEnd,
+}: Props) => {
     const [dateStartLocal, setDateStartLocal] = useState(dateStart);
     const [dateEndLocal, setDateEndLocal] = useState(dateEnd);
 
     useEffect(() => {
-        if(
+        if (
             !isNaN(Date.parse(dateStartLocal)) &&
             !isNaN(Date.parse(dateEndLocal)) &&
             Date.parse(dateStartLocal) <= Date.parse(dateEndLocal) &&
@@ -27,13 +34,16 @@ const InputBarComponent = ({ type, setType, dateStart, setDateStart, dateEnd, se
     }, [dateStartLocal, dateEndLocal]);
 
     return (
-        <form>
+        <form data-testid="input">
             <label>
                 Ventes par :
                 <div className="choice">
                     <select
                         defaultValue={type}
-                        onChange={(e) => { setType(e.target.value) }}
+                        data-testid="type-date"
+                        onChange={(e) => {
+                            setType(e.target.value);
+                        }}
                     >
                         <option value="day">Jour</option>
                         <option value="week">Semaine</option>
@@ -47,24 +57,40 @@ const InputBarComponent = ({ type, setType, dateStart, setDateStart, dateEnd, se
                 <label>
                     Entre le :
                     <div className="choice">
-                        <input type="date" id="start" name="trip-start"
+                        <input
+                            type="date"
+                            id="start"
+                            data-testid="date-start"
+                            name="trip-start"
                             value={dateStartLocal}
-                            onChange={(e) => { setDateStartLocal(e.target.value) }}
-                            min="2017-01-01" max="2022-12-31"/>
+                            onChange={(e) => {
+                                setDateStartLocal(e.target.value);
+                            }}
+                            min="2017-01-01"
+                            max="2022-12-31"
+                        />
                     </div>
                 </label>
                 <label>
                     et le :
                     <div className="choice">
-                        <input type="date" id="end" name="trip-start"
+                        <input
+                            type="date"
+                            id="end"
+                            data-testid="date-end"
+                            name="trip-start"
                             value={dateEndLocal}
-                            onChange={(e) => { setDateEndLocal(e.target.value) }}
-                            min="2017-01-01" max="2022-12-31"/>
+                            onChange={(e) => {
+                                setDateEndLocal(e.target.value);
+                            }}
+                            min="2017-01-01"
+                            max="2022-12-31"
+                        />
                     </div>
                 </label>
             </div>
         </form>
     );
-}
+};
 
 export default InputBarComponent;

@@ -56,6 +56,12 @@ Executer ensuite la commande :
 ```
 docker compose exec php bin/console doctrine:fixtures:load
 ```
+## Mise en place pour les tests frontend
+```
+cd pwa/
+npm install
+npm test
+```
 
 ## Mise en place pour les tests backend
 - Executer la commande : `docker compose exec -T php bin/console -e test doctrine:database:create` pour créer la base de données de test

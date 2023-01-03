@@ -5,9 +5,9 @@ interface Props {
     setYear: Dispatch<SetStateAction<number>>;
 }
 
-const InputDonutComponent = ({ year, setYear } : Props) => {
+const InputDonutComponent = ({ year, setYear }: Props) => {
     return (
-        <form>
+        <form data-testid="input">
             <label>
                 Choisissez une année :
                 <div className="choice">
@@ -16,14 +16,26 @@ const InputDonutComponent = ({ year, setYear } : Props) => {
                         min="2017"
                         max="2022"
                         value={year}
-                        onChange={event => setYear(parseInt(event.target.value))}
+                        onChange={(event) =>
+                            setYear(parseInt(event.target.value))
+                        }
                     />
-                    <span className="up" onClick={() => { if(year+1 <= 2022) setYear(year+1) }}/>
-                    <span className="down" onClick={() => { if(year-1 >= 2017) setYear(year-1) }}/>
+                    <span
+                        className="up"
+                        onClick={() => {
+                            if (year + 1 <= 2022) setYear(year + 1);
+                        }}
+                    />
+                    <span
+                        className="down"
+                        onClick={() => {
+                            if (year - 1 >= 2017) setYear(year - 1);
+                        }}
+                    />
                 </div>
             </label>
         </form>
     );
-}
+};
 
 export default InputDonutComponent;
