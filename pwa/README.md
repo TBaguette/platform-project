@@ -10,7 +10,7 @@
 | ------- | ---------- | --------  | -------------------------------------- |
 | Drouard | Anne-Laure |   Lewynn  | anne-laure.drouard@etu.univ-lehavre.fr |
 | Riette  | Nathan     | TBaguette | nathan.riette@etu.univ-lehavre.fr      |
-| Cazade  | Alexia     |  Pepalex  | alexia.xazade@etu.univ-lehavre.fr      |
+| Cazade  | Alexia     |  Pepalex  | alexia.cazade@etu.univ-lehavre.fr      |
 | Vauthier| Quentin    | Quentin-V | quentin.vauthier@etu.univ-lehavre.fr      |
 
 
